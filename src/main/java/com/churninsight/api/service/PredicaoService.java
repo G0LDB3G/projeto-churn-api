@@ -8,16 +8,19 @@ import org.springframework.http.*;
 
 @Service
 public class PredicaoService {
+    // URL da API Python
+    private final String url = System.getenv("URL_API_DS");
+    private final String token = System.getenv("USER_TOKEN");
 
     public PredicaoResponseDTO preverChurn(ClienteRequestDTO clienteDTO) {
-
-        // URL da API Python
-        String url = "http://localhost:8000/predict";
 
         RestTemplate rest = new RestTemplate();
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
+
+        // adiciona o token no cabeçalho Authorization
+        headers.add("Authorization", "Bearer " + token);
 
         HttpEntity<ClienteRequestDTO> request = new HttpEntity<>(clienteDTO, headers);
 
@@ -32,4 +35,3 @@ public class PredicaoService {
         }
     }
 }
-
