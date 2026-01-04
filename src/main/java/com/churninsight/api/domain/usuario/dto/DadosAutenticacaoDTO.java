@@ -1,0 +1,10 @@
+package com.churninsight.api.domain.usuario.dto;
+
+import jakarta.validation.constraints.NotBlank;
+
+public record DadosAutenticacaoDTO(
+        @NotBlank
+        String login,
+        @NotBlank
+        String senha) {
+}

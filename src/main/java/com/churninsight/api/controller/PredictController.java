@@ -1,10 +1,10 @@
 package com.churninsight.api.controller;
 
+import com.churninsight.api.domain.ClienteRepository;
 import com.churninsight.api.domain.cliente.Cliente;
 import com.churninsight.api.domain.cliente.dto.ClienteRequestDTO;
 import com.churninsight.api.domain.cliente.dto.ListagemPredicaoDTO;
 import com.churninsight.api.domain.cliente.dto.PredicaoResponseDTO;
-import com.churninsight.api.domain.cliente.repository.ClienteRepository;
 import com.churninsight.api.domain.predicao.Predicao;
 import com.churninsight.api.domain.predicao.repository.PredicaoRepository;
 import com.churninsight.api.service.PredicaoService;
@@ -33,7 +33,7 @@ public class PredictController {
     }
 
     @PostMapping("/predict")
-    public PredicaoResponseDTO prever(@Valid @RequestBody ClienteRequestDTO clienteDTO) {
+    public PredicaoResponseDTO prever(@RequestBody @Valid ClienteRequestDTO clienteDTO) {
         PredicaoResponseDTO resultado = predictService.preverChurn(clienteDTO);
         Cliente cliente = new Cliente(clienteDTO);
         Predicao predicao = new Predicao(resultado);
