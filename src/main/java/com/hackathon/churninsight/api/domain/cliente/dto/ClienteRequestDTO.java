@@ -1,50 +1,69 @@
 package com.hackathon.churninsight.api.domain.cliente.dto;
 
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
-public class ClienteRequestDTO {
+import java.math.BigDecimal;
 
-    @NotNull(message = "tempo_contrato_meses é obrigatório")
-    private Integer tempoContratoMeses;
+public record ClienteRequestDTO(
 
-    @NotNull(message = "atrasos_de_pagamento é obrigatório")
-    private Integer atrasosDePagamento;
+        @NotBlank
+        String customerID,
 
-    @NotNull(message = "uso_mensal é obrigatório")
-    private Double usoMensal;
+        @NotBlank
+        String gender,
 
-    @NotNull(message = "plano é obrigatório")
-    private String plano;
+        @NotNull
+        Integer seniorCitizen,
 
-    public Integer getTempoContratoMeses() {
-        return tempoContratoMeses;
-    }
+        @NotBlank
+        String partner,
 
-    public void setTempoContratoMeses(Integer tempoContratoMeses) {
-        this.tempoContratoMeses = tempoContratoMeses;
-    }
+        @NotBlank
+        String dependents,
 
-    public Integer getAtrasosDePagamento() {
-        return atrasosDePagamento;
-    }
+        @NotNull
+        Integer tenure,
 
-    public void setAtrasosDePagamento(Integer atrasosDePagamento) {
-        this.atrasosDePagamento = atrasosDePagamento;
-    }
+        @NotBlank
+        String phoneService,
 
-    public Double getUsoMensal() {
-        return usoMensal;
-    }
+        @NotBlank
+        String multipleLines,
 
-    public void setUsoMensal(Double usoMensal) {
-        this.usoMensal = usoMensal;
-    }
+        @NotBlank
+        String internetService,
 
-    public String getPlano() {
-        return plano;
-    }
+        @NotBlank
+        String onlineSecurity,
 
-    public void setPlano(String plano) {
-        this.plano = plano;
-    }
-}
+        @NotBlank
+        String onlineBackup,
+
+        @NotBlank
+        String deviceProtection,
+
+        @NotBlank
+        String techSupport,
+
+        @NotBlank
+        String streamingTV,
+
+        @NotBlank
+        String streamingMovies,
+
+        @NotBlank
+        String contract,
+
+        @NotBlank
+        String paperlessBilling,
+
+        @NotBlank
+        String paymentMethod,
+
+        @NotNull
+        BigDecimal monthlyCharges,
+
+        @NotNull
+        BigDecimal totalCharges
+) {}

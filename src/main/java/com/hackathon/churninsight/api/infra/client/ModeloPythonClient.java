@@ -9,18 +9,23 @@ import org.springframework.web.client.RestTemplate;
 @Component
 public class ModeloPythonClient {
 
-    private static final String URL_MODELO = "http://163.176.196.163:8000/predict";
-    private static final String TOKEN = "token-mateus-456";
+//    private static final String URL_MODELO = "http://163.176.196.163:8000/predict";
+//    private static final String TOKEN = "token-mateus-456";
+    private final String URL_MODELO = System.getenv("URL_API_DS");
+    private final String TOKEN = System.getenv("USER_TOKEN");
+
 
     private final RestTemplate restTemplate = new RestTemplate();
 
-    public PredicaoResponseDTO prever(ClienteFeaturesDTO dadosConvertidos) {
+    public PredicaoResponseDTO prever(Object dadosConvertidos) {
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         headers.add("Authorization", "Bearer " + TOKEN);
 
-        HttpEntity<ClienteFeaturesDTO> request =
+        //Não é Object, é dadosConvertidos
+        HttpEntity<Object> request =
+                //Alteração feita para o teste da API do data science
                 new HttpEntity<>(dadosConvertidos, headers);
 
         ResponseEntity<PredicaoResponseDTO> response =
