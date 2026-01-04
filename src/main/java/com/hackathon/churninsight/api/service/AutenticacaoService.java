@@ -1,0 +1,21 @@
+package com.hackathon.churninsight.api.service;
+
+import com.hackathon.churninsight.api.domain.usuario.repository.UsuarioRepository;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Service;
+
+@Service
+public class AutenticacaoService implements UserDetailsService {
+    private final UsuarioRepository clienteRepository;
+
+    public AutenticacaoService(UsuarioRepository clienteRepository) {
+        this.clienteRepository = clienteRepository;
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        return clienteRepository.findByLogin(username);
+    }
+}
