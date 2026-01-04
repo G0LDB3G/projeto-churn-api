@@ -1,37 +1,45 @@
 package com.hackathon.churninsight.api.service;
 
 import com.hackathon.churninsight.api.domain.cliente.dto.ClienteRequestDTO;
+import com.hackathon.churninsight.api.domain.cliente.dto.ClienteFeaturesDTO;
 import com.hackathon.churninsight.api.domain.cliente.dto.PredicaoResponseDTO;
+import com.hackathon.churninsight.api.domain.predicao.Predicao;
+import com.hackathon.churninsight.api.domain.predicao.repository.PredicaoRepository;
+import com.hackathon.churninsight.api.infra.client.ModeloPythonClient;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
-import org.springframework.http.*;
 
 @Service
 public class PredicaoService {
-    // URL da API Python
-    private final String url = "http://163.176.196.163:8000/predict";
-    private final String token = "token-mateus-456";
+
+    private final ConversaoDadosService conversaoDadosService;
+    private final ModeloPythonClient modeloPythonClient;
+    private final PredicaoRepository predicaoRepository;
+
+    public PredicaoService(
+            ConversaoDadosService conversaoDadosService,
+            ModeloPythonClient modeloPythonClient,
+            PredicaoRepository predicaoRepository
+    ) {
+        this.conversaoDadosService = conversaoDadosService;
+        this.modeloPythonClient = modeloPythonClient;
+        this.predicaoRepository = predicaoRepository;
+    }
 
     public PredicaoResponseDTO preverChurn(ClienteRequestDTO clienteDTO) {
 
-        RestTemplate rest = new RestTemplate();
+        //  Converte dados de entrada para features
+        ClienteFeaturesDTO features =
+                conversaoDadosService.processarCliente(clienteDTO);
 
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
+        //  Chama o modelo Python
+        PredicaoResponseDTO resultado =
+                modeloPythonClient.prever(features);
 
-        // adiciona o token no cabeçalho Authorization
-        headers.add("Authorization", "Bearer " + token);
+        //  Persiste o resultado
+        Predicao predicao = new Predicao(resultado);
+        predicaoRepository.save(predicao);
 
-        HttpEntity<ClienteRequestDTO> request = new HttpEntity<>(clienteDTO, headers);
-
-        try {
-            ResponseEntity<PredicaoResponseDTO> response =
-                    rest.exchange(url, HttpMethod.POST, request, PredicaoResponseDTO.class);
-
-            return response.getBody();
-
-        } catch (Exception e) {
-            return new PredicaoResponseDTO("erro", 0.0);
-        }
+        //  Retorna resposta para o controller
+        return resultado;
     }
 }

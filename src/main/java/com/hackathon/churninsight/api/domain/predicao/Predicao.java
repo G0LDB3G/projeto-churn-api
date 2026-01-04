@@ -12,14 +12,19 @@ import lombok.Setter;
 @Setter
 @Entity
 public class Predicao {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
     private String previsao;
-
     private double probabilidade;
 
+    //Construtor padrão (JPA)
+    protected Predicao() {
+    }
+
+    //Construtor de conveniência
     public Predicao(PredicaoResponseDTO resultado) {
         this.previsao = resultado.getPrevisao();
         this.probabilidade = resultado.getProbabilidade();
