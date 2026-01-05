@@ -25,7 +25,7 @@ public class PredictController {
     }
 
     @PostMapping("/converter")
-    public ResponseEntity<ClienteResponseDTO> handleProcessar(@RequestBody ClienteRequestDTO dados) {
+    public ResponseEntity<ClienteResponseDTO> handleProcessar(@Valid @RequestBody ClienteRequestDTO dados) {
 
         ConversaoDadosService clienteService = new ConversaoDadosService();
         ClienteResponseDTO resultado = clienteService.processarCliente(dados);

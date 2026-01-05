@@ -1,171 +1,237 @@
 package com.churninsight.api.domain.cliente.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.NotNull;
 
 public class ClienteRequestDTO {
 
+    //Recebe as propriedades Json do cliente e transforma para Strings;
+
     @NotNull(message = "genero é obrigatório")
-    private String gender;
+    @JsonProperty("gender_Male")
+    private String gender_Male;
 
     @NotNull(message = "parceiro é obrigatório")
-    private String partner;
+    @JsonProperty("partner")
+    private String partner_Yes;
 
     @NotNull(message = "dependente é obrigatório")
-    private String dependents;
+    @JsonProperty("dependents")
+    private String dependents_Yes;
 
     @NotNull(message = "atendimento_telefonico é obrigatório")
-    private String phoneService;
+    @JsonProperty("phoneService")
+    private String phoneService_Yes;
 
     @NotNull(message = "linhas_multiplas é obrigatório")
-    private String multipleLines;
+    @JsonProperty("multipleLines")
+    private String multipleLines_Yes;
 
     @NotNull(message = "servico_internet é obrigatório")
-    private String internetService;
+    @JsonProperty("internetServiceFiberOptic")
+    private String internetService_Fiber_Optic;
+
+    @NotNull(message = "servico_internet é obrigatório")
+    @JsonProperty("internetService")
+    private String internetService_No;
 
     @NotNull(message = "seguranca_online é obrigatório")
-    private String onlineSecurity;
+    @JsonProperty("onlineSecurity")
+    private String onlineSecurity_Yes;
 
     @NotNull(message = "backup_online é obrigatório")
-    private String onlineBackup;
+    @JsonProperty("onlineBackup")
+    private String onlineBackup_Yes;
 
     @NotNull(message = "protecao_dispositivo é obrigatório")
-    private String deviceProtection;
+    @JsonProperty("deviceProtection")
+    private String deviceProtection_Yes;
 
     @NotNull(message = "suporte_tecnico é obrigatório")
-    private String techSupport;
+    @JsonProperty("techSupport")
+    private String techSupport_Yes;
 
     @NotNull(message = "streaming_tv é obrigatório")
-    private String streamingTv;
+    @JsonProperty("streamingTv")
+    private String streamingTv_Yes;
 
     @NotNull(message = "streaming_filmes é obrigatório")
-    private String streamingMovies;
+    @JsonProperty("streamingMovies")
+    private String streamingMovies_Yes;
 
     @NotNull(message = "contrato é obrigatório")
-    private String contract;
+    @JsonProperty("contractOneYear")
+    private String contract_One_Year;
+
+    @NotNull(message = "contrato é obrigatório")
+    @JsonProperty("contractTwoYear")
+    private String contract_Two_Year;
 
     @NotNull(message = "faturamento é obrigatório")
-    private String paperlessBilling;
+    @JsonProperty("paperlessBilling")
+    private String paperlessBilling_Yes;
 
     @NotNull(message = "metodo_pagamento é obrigatório")
-    private String paymentMethod;
+    @JsonProperty("paymentMethodCreditCardAutomatic")
+    private String paymentMethod_Credit_Card_Automatic;
 
-    public String getGender() {
-        return gender;
+    @NotNull(message = "metodo_pagamento é obrigatório")
+    @JsonProperty("paymentMethodElectronicCheck")
+    private String paymentMethod_Electronic_Check;
+
+    @NotNull(message = "metodo_pagamento é obrigatório")
+    @JsonProperty("paymentMethodMailedCheck")
+    private String paymentMethod_Mailed_Check;
+
+    public String getGender_Male() {
+        return gender_Male;
     }
 
-    public void setGender(String gender) {
-        this.gender = gender;
+    public void setGender_Male(String gender_Male) {
+        this.gender_Male = gender_Male;
     }
 
-    public String getPartner() {
-        return partner;
+    public String getPartner_Yes() {
+        return partner_Yes;
     }
 
-    public void setPartner(String partner) {
-        this.partner = partner;
+    public void setPartner_Yes(String partner_Yes) {
+        this.partner_Yes = partner_Yes;
     }
 
-    public String getDependents() {
-        return dependents;
+    public String getDependents_Yes() {
+        return dependents_Yes;
     }
 
-    public void setDependents(String dependents) {
-        this.dependents = dependents;
+    public void setDependents_Yes(String dependents_Yes) {
+        this.dependents_Yes = dependents_Yes;
     }
 
-    public String getPhoneService() {
-        return phoneService;
+    public String getPhoneService_Yes() {
+        return phoneService_Yes;
     }
 
-    public void setPhoneService(String phoneService) {
-        this.phoneService = phoneService;
+    public void setPhoneService_Yes(String phoneService_Yes) {
+        this.phoneService_Yes = phoneService_Yes;
     }
 
-    public String getMultipleLines() {
-        return multipleLines;
+    public String getMultipleLines_Yes() {
+        return multipleLines_Yes;
     }
 
-    public void setMultipleLines(String multipleLines) {
-        this.multipleLines = multipleLines;
+    public void setMultipleLines_Yes(String multipleLines_Yes) {
+        this.multipleLines_Yes = multipleLines_Yes;
     }
 
-    public String getInternetService() {
-        return internetService;
+    public String getInternetService_Fiber_Optic() {
+        return internetService_Fiber_Optic;
     }
 
-    public void setInternetService(String internetService) {
-        this.internetService = internetService;
+    public void setInternetService_Fiber_Optic(String internetService_Fiber_Optic) {
+        this.internetService_Fiber_Optic = internetService_Fiber_Optic;
     }
 
-    public String getOnlineSecurity() {
-        return onlineSecurity;
+    public String getOnlineSecurity_Yes() {
+        return onlineSecurity_Yes;
     }
 
-    public void setOnlineSecurity(String onlineSecurity) {
-        this.onlineSecurity = onlineSecurity;
+    public void setOnlineSecurity_Yes(String onlineSecurity_Yes) {
+        this.onlineSecurity_Yes = onlineSecurity_Yes;
     }
 
-    public String getOnlineBackup() {
-        return onlineBackup;
+    public String getOnlineBackup_Yes() {
+        return onlineBackup_Yes;
     }
 
-    public void setOnlineBackup(String onlineBackup) {
-        this.onlineBackup = onlineBackup;
+    public void setOnlineBackup_Yes(String onlineBackup_Yes) {
+        this.onlineBackup_Yes = onlineBackup_Yes;
     }
 
-    public String getDeviceProtection() {
-        return deviceProtection;
+    public String getDeviceProtection_Yes() {
+        return deviceProtection_Yes;
     }
 
-    public void setDeviceProtection(String deviceProtection) {
-        this.deviceProtection = deviceProtection;
+    public void setDeviceProtection_Yes(String deviceProtection_Yes) {
+        this.deviceProtection_Yes = deviceProtection_Yes;
     }
 
-    public String getTechSupport() {
-        return techSupport;
+    public String getTechSupport_Yes() {
+        return techSupport_Yes;
     }
 
-    public void setTechSupport(String techSupport) {
-        this.techSupport = techSupport;
+    public void setTechSupport_Yes(String techSupport_Yes) {
+        this.techSupport_Yes = techSupport_Yes;
     }
 
-    public String getStreamingTv() {
-        return streamingTv;
+    public String getStreamingTv_Yes() {
+        return streamingTv_Yes;
     }
 
-    public void setStreamingTv(String streamingTv) {
-        this.streamingTv = streamingTv;
+    public void setStreamingTv_Yes(String streamingTv_Yes) {
+        this.streamingTv_Yes = streamingTv_Yes;
     }
 
-    public String getStreamingMovies() {
-        return streamingMovies;
+    public String getStreamingMovies_Yes() {
+        return streamingMovies_Yes;
     }
 
-    public void setStreamingMovies(String streamingMovies) {
-        this.streamingMovies = streamingMovies;
+    public void setStreamingMovies_Yes(String streamingMovies_Yes) {
+        this.streamingMovies_Yes = streamingMovies_Yes;
     }
 
-    public String getContract() {
-        return contract;
+    public String getContract_One_Year() {
+        return contract_One_Year;
     }
 
-    public void setContract(String contract) {
-        this.contract = contract;
+    public void setContract_One_Year(String contract_One_Year) {
+        this.contract_One_Year = contract_One_Year;
     }
 
-    public String getPaymentMethod() {
-        return paymentMethod;
+    public String getPaymentMethod_Credit_Card_Automatic() {
+        return paymentMethod_Credit_Card_Automatic;
     }
 
-    public void setPaymentMethod(String paymentMethod) {
-        this.paymentMethod = paymentMethod;
+    public void setPaymentMethod_Credit_Card_Automatic(String paymentMethod_Credit_Card_Automatic) {
+        this.paymentMethod_Credit_Card_Automatic = paymentMethod_Credit_Card_Automatic;
     }
 
-    public String getPaperlessBilling() {
-        return paperlessBilling;
+    public String getPaperlessBilling_Yes() {
+        return paperlessBilling_Yes;
     }
 
-    public void setPaperlessBilling(String paperlessBilling) {
-        this.paperlessBilling = paperlessBilling;
+    public void setPaperlessBilling_Yes(String paperlessBilling_Yes) {
+        this.paperlessBilling_Yes = paperlessBilling_Yes;
+    }
+
+    public String getInternetService_No() {
+        return internetService_No;
+    }
+
+    public void setInternetService_No(String internetService_No) {
+        this.internetService_No = internetService_No;
+    }
+
+    public String getContract_Two_Year() {
+        return contract_Two_Year;
+    }
+
+    public void setContract_Two_Year(String contract_Two_Year) {
+        this.contract_Two_Year = contract_Two_Year;
+    }
+
+    public String getPaymentMethod_Electronic_Check() {
+        return paymentMethod_Electronic_Check;
+    }
+
+    public void setPaymentMethod_Electronic_Check(String paymentMethod_Electronic_Check) {
+        this.paymentMethod_Electronic_Check = paymentMethod_Electronic_Check;
+    }
+
+    public String getPaymentMethod_Mailed_Check() {
+        return paymentMethod_Mailed_Check;
+    }
+
+    public void setPaymentMethod_Mailed_Check(String paymentMethod_Mailed_Check) {
+        this.paymentMethod_Mailed_Check = paymentMethod_Mailed_Check;
     }
 }
