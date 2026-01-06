@@ -29,7 +29,7 @@ public class AutenticacaoController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<Void> cadastrar(
+    public ResponseEntity<String> cadastrar(
             @RequestBody @Valid DadosCadastroUsuarioDTO dto
     ) {
 
@@ -42,7 +42,7 @@ public class AutenticacaoController {
         usuario.setSenha(encoder.encode(dto.senha()));
 
         usuarioRepository.save(usuario);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok("Registro efetuado com sucesso!");
     }
 
 
