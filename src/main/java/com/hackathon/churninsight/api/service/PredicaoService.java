@@ -2,13 +2,14 @@ package com.hackathon.churninsight.api.service;
 
 import com.hackathon.churninsight.api.domain.cliente.Cliente;
 import com.hackathon.churninsight.api.domain.cliente.dto.ClienteRequestDTO;
-import com.hackathon.churninsight.api.domain.cliente.dto.ClienteFeaturesDTO;
 import com.hackathon.churninsight.api.domain.cliente.dto.PredicaoResponseDTO;
 import com.hackathon.churninsight.api.domain.cliente.repository.ClienteRepository;
 import com.hackathon.churninsight.api.domain.predicao.Predicao;
 import com.hackathon.churninsight.api.domain.predicao.repository.PredicaoRepository;
 import com.hackathon.churninsight.api.infra.client.ModeloPythonClient;
 import org.springframework.stereotype.Service;
+
+import java.util.Map;
 
 @Service
 public class PredicaoService {
@@ -32,23 +33,24 @@ public class PredicaoService {
 
     public PredicaoResponseDTO preverChurn(ClienteRequestDTO clienteDTO) {
 
-        // Converte dados de entrada para features
-        Object features =
+        // Converte dados para features
+        Map<String, Object> features =
                 conversaoDadosService.processarCliente(clienteDTO);
 
         // Chama o modelo Python
         PredicaoResponseDTO resultado =
                 modeloPythonClient.prever(features);
 
-        // Persiste o resultado
+        // Salva previsão
         Predicao predicao = new Predicao(resultado);
         predicaoRepository.save(predicao);
 
-        //Salva Cliente
-        Cliente cliente = new Cliente(clienteDTO);
-        clienteRepository.save(cliente);
+        // Salva cliente apenas se não existir
+        if (!clienteRepository.existsByCustomerID(clienteDTO.customerID())) {
+            Cliente cliente = new Cliente(clienteDTO);
+            clienteRepository.save(cliente);
+        }
 
-        // Retorna resposta para o controller
         return resultado;
     }
 }

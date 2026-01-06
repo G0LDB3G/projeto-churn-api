@@ -32,3 +32,4 @@ public class PredictController {
         return ResponseEntity.ok("API funcionando!");
     }
 }
+
