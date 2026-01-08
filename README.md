@@ -142,3 +142,9 @@ Banco de Dados: Certifique-se de que o PostgreSQL está rodando e o banco churni
 * **GET** /api/stats: Ver métricas do dashboard.
 
 * **GET** /swagger-ui/index.html: Documentação completa.
+
+## Método de utilização
+
+* **Consulte a documentação**
+
+    https://churn-api.ddns.net/java/swagger-ui/index.html
