@@ -8,7 +8,7 @@ A **ChurnInsight API** é uma solução robusta desenvolvida em **Spring Boot** 
 * **Predição de Churn:** Integração via `RestTemplate` spring, com modelo de Data Science para análise em tempo real.
 * **Gestão de Clientes:** Cadastro e histórico de consultas com persistência no PostgreSQL.
 * **Histórico de Consultas:** Endpoint paginado para auditoria de predições anteriores.
-* **Tratamento de Erros:** Respostas padronizadas para exceções de validações, segurança e regras de negócios.
+* **Tratamento de Erros:** Respostas padronizadas para exceções de validações, segurança de controle de usuários e regras de negócios.
 
 ## 🛠️ Tecnologias Utilizadas
 
