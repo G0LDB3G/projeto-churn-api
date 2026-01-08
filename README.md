@@ -38,106 +38,108 @@ churninsight
 └── src/main/resources
     ├── application.properties
     └── db.migration    # Scripts SQL (V1_create_table_clientes.sql)
+```
 
-Fluxo de Dados e Transformação (Data Mapping)
+### Fluxo de Dados e Transformação (Data Mapping)
 A API realiza a ponte entre o formato de negócio (String/Categorias) e o formato técnico exigido pelo modelo de Data Science (Numérico/Binário).
 
-1. Entrada Back-End (ClienteRequestDTO)
-O JSON enviado pelo usuário contém informações legíveis:
+1. Entrada Back-End (ClienteRequestDTO)  
+    O JSON enviado pelo usuário contém informações legíveis
 
 JSON
 
-{  
-"customerID": "7590-VHVEG",
-"gender": "Female",
-"SeniorCitizen": 0,
-"Partner": "Yes",
-"Dependents": "No",
-"tenure": 1,
-"PhoneService": "No",
-"MultipleLines": "No phone service",
-"InternetService": "DSL",
-"OnlineSecurity": "No",
-"OnlineBackup": "Yes",
-"DeviceProtection": "No",
-"TechSupport": "No",
-"StreamingTV": "No",
-"StreamingMovies": "No",
-"Contract": "Month-to-month",
-"PaperlessBilling": "Yes",
-"PaymentMethod": "Electronic check",
-"MonthlyCharges": 29.85,
-"TotalCharges": 29.85
-}
+    {  
+    "customerID": "7590-VHVEG",
+    "gender": "Female",
+    "SeniorCitizen": 0,
+    "Partner": "Yes",
+    "Dependents": "No",
+    "tenure": 1,
+    "PhoneService": "No",
+    "MultipleLines": "No phone service",
+    "InternetService": "DSL",
+    "OnlineSecurity": "No",
+    "OnlineBackup": "Yes",
+    "DeviceProtection": "No",
+    "TechSupport": "No",
+    "StreamingTV": "No",
+    "StreamingMovies": "No",
+    "Contract": "Month-to-month",
+    "PaperlessBilling": "Yes",
+    "PaymentMethod": "Electronic check",
+    "MonthlyCharges": 29.85,
+    "TotalCharges": 29.85
+    }
 
-2. Transformação (ConversaoDadosService)
-A aplicação converte categorias em variáveis dummy (binárias) para processamento da IA:
+2. Transformação (ConversaoDadosService)  
+    A aplicação converte categorias em variáveis dummy (binárias) para processamento da IA
 
-3. Requisição para API de Data Science (ModeloPythonClient)
-O formato final enviado ao modelo de ML:
+3. Requisição para API de Data Science (ModeloPythonClient)  
+    O formato final enviado ao modelo de Machine Learning (ML)
 
 JSON
 
-{
-"tenure": 60,
-"MonthlyCharges": 25.00,
-"TotalCharges": 108.80,
-"gender_Male": 1,
-"Partner_Yes": 0,
-"Dependents_Yes": 0,
-"PhoneService_Yes": 1,
-"MultipleLines_Yes": 0,
-"InternetService_Fiber_optic": 0,
-"InternetService_No": 0,
-"OnlineSecurity_Yes": 1,
-"OnlineBackup_Yes": 0,
-"DeviceProtection_Yes": 0,
-"TechSupport_Yes": 0,
-"StreamingTV_Yes": 0,
-"StreamingMovies_Yes": 0,
-"Contract_One_year": 0,
-"Contract_Two_year": 1,
-"PaperlessBilling_Yes": 1,
-"PaymentMethod_Credit_card_automatic": 0,
-"PaymentMethod_Electronic_check": 1,
-"PaymentMethod_Mailed_check": 0
-}
+    {
+    "tenure": 60,
+    "MonthlyCharges": 25.00,
+    "TotalCharges": 108.80,
+    "gender_Male": 1,
+    "Partner_Yes": 0,
+    "Dependents_Yes": 0,
+    "PhoneService_Yes": 1,
+    "MultipleLines_Yes": 0,
+    "InternetService_Fiber_optic": 0,
+    "InternetService_No": 0,
+    "OnlineSecurity_Yes": 1,
+    "OnlineBackup_Yes": 0,
+    "DeviceProtection_Yes": 0,
+    "TechSupport_Yes": 0,
+    "StreamingTV_Yes": 0,
+    "StreamingMovies_Yes": 0,
+    "Contract_One_year": 0,
+    "Contract_Two_year": 1,
+    "PaperlessBilling_Yes": 1,
+    "PaymentMethod_Credit_card_automatic": 0,
+    "PaymentMethod_Electronic_check": 1,
+    "PaymentMethod_Mailed_check": 0
+    }
 
 
 ## 🚀 Como Executar
 
 Banco de Dados: Certifique-se de que o PostgreSQL está rodando e o banco churninsight_db foi criado.
 
-## VARIAVEIS DE AMBIENTE BACK-END
-* **URL EXEMPLO: url=jdbc:postgresql://${HOST:localhost}:${PORTA:5432}/${DB_NAME:churninsight_db}
-* **LOGIN DO BANCO EXEMPLO: username=${DB_USER:postgres}
-* **SENHA DO BANCO EXEMPLO: password=${DB_PASSWORD}
-* **API CHAVE PARA CRIAÇÂO DO JWT. EXEMPLO: api.security.token.secret=${JWT_SECRET}
+### VARIAVEIS DE AMBIENTE 
+#### BACK-END
 
-Variáveis de Ambiente: Configure as credenciais da API de Data Science:
+* **HOST**: ENDEREÇO DO POSTGRES
+* **PORTA**: PORTA DO BANCO POSTGRES
+* **DB_NAME**: NOME DO BANCO DE DADOS
+* **DB_USER**: USUARIO DO BANCO DE DADOS
+* **DB_PASSWORD**: SENHA DO USUARIO
+* **JWT_SECRET**: SENHA PARA A GERAÇÃO DE TOKEN JWT
 
-URL_API_DS: URL do modelo Python.
+#### DATA SCIENCE:
 
-USER_TOKEN: Token de autorização do modelo.
+* **URL_API_DS**: URL MODELO PHYTHON
+* **USER_TOKEN**: TOKEN DE AUTORIZAÇÃO DO MODELO
 
-Build:
+## Build
 
-Bash
+    mvn clean install
 
-mvn clean install
-Run:
+## Executar
 
-Bash
+    mvn spring-boot:run
 
-mvn spring-boot:run
-📖 Endpoints Principais
+## 📖 Endpoints Principais
 
-* **POST /auth/login: Obter token de acesso.
+* **POST** /auth/login: Obter token de acesso.
 
-* **POST /api/predict: Realizar nova predição.
+* **POST** /api/predict: Realizar nova predição.
 
-* **GET /api/consultas: Ver histórico paginado.
+* **GET** /api/consultas: Ver histórico paginado.
 
-* **GET /api/stats: Ver métricas do dashboard.
+* **GET** /api/stats: Ver métricas do dashboard.
 
-* **GET /swagger-ui/index.html: Documentação completa.
+* **GET** /swagger-ui/index.html: Documentação completa.
