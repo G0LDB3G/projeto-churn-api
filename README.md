@@ -15,7 +15,7 @@ A **ChurnInsight API** é uma solução robusta desenvolvida em **Spring Boot** 
 * **Java 17** & **Spring Boot 3.5.8**
 * **Spring Security** & **Auth0 JWT** (Segurança)
 * **Spring Data JPA** & **PostgreSQL** (Persistência)
-* **Lombok** (Produtividade)
+* **Lombok** (Produtividade na redução de códigos)
 * **SpringDoc OpenAPI (Swagger)** (Documentação)
 
 ---
