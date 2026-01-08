@@ -108,6 +108,12 @@ JSON
 
 Banco de Dados: Certifique-se de que o PostgreSQL está rodando e o banco churninsight_db foi criado.
 
+## VARIAVEIS DE AMBIENTE BACK-END
+* **URL EXEMPLO: url=jdbc:postgresql://${HOST:localhost}:${PORTA:5432}/${DB_NAME:churninsight_db}
+* **LOGIN DO BANCO EXEMPLO: username=${DB_USER:postgres}
+* **SENHA DO BANCO EXEMPLO: password=${DB_PASSWORD}
+* **API CHAVE PARA CRIAÇÂO DO JWT. EXEMPLO: api.security.token.secret=${JWT_SECRET}
+
 Variáveis de Ambiente: Configure as credenciais da API de Data Science:
 
 URL_API_DS: URL do modelo Python.
