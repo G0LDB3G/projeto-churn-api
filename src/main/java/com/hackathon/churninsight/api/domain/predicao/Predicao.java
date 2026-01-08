@@ -1,32 +1,49 @@
 package com.hackathon.churninsight.api.domain.predicao;
 
-import com.hackathon.churninsight.api.domain.cliente.dto.PredicaoResponseDTO;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import lombok.Getter;
-import lombok.Setter;
+import com.hackathon.churninsight.api.domain.predicao.dto.PredicaoResponseDTO;
+import jakarta.persistence.*;
+import lombok.*;
 
+import java.time.LocalDateTime;
+
+/**
+ * Entidade Predicao
+ * Representa uma previsão de churn realizada pelo sistema.
+ */
+@Entity
+@Table(name = "predicoes")
 @Getter
 @Setter
-@Entity
+@NoArgsConstructor
+@AllArgsConstructor
+@EqualsAndHashCode(of = "id")
 public class Predicao {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    /**
+     * Resultado da previsão (ex: "Vai cancelar")
+     */
     private String previsao;
-    private double probabilidade;
 
-    // Construtor padrão (JPA)
-    protected Predicao() {
-    }
+    /**
+     * Probabilidade calculada pelo modelo
+     */
+    private Double probabilidade;
 
-    // Construtor de conveniência
-    public Predicao(PredicaoResponseDTO resultado) {
-        this.previsao = resultado.getPrevisao();
-        this.probabilidade = resultado.getProbabilidade();
+    /**
+     * Data/hora da previsão
+     */
+    private LocalDateTime dataPredicao;
+
+    /**
+     * Construtor usado pelo serviço de predição
+     */
+    public Predicao(PredicaoResponseDTO dto) {
+        this.previsao = dto.previsao();
+        this.probabilidade = dto.probabilidade();
+        this.dataPredicao = LocalDateTime.now();
     }
 }

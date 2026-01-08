@@ -10,43 +10,69 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+/**
+ * Configuração central de segurança da aplicação.
+ * Usa autenticação JWT (stateless).
+ */
 @Configuration
-public class SecurityConfig {
+public class SecurityConfigurations {
 
-    private final JwtAuthenticationFilter jwtFilter;
+    private final SecurityFilter securityFilter;
 
-    public SecurityConfig(JwtAuthenticationFilter jwtFilter) {
-        this.jwtFilter = jwtFilter;
+    public SecurityConfigurations(SecurityFilter securityFilter) {
+        this.securityFilter = securityFilter;
     }
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+
         return http
+                // Desativa CSRF pois usamos JWT (API REST)
                 .csrf(csrf -> csrf.disable())
-                .sessionManagement(sm ->
-                        sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+
+                // API stateless → não usa sessão
+                .sessionManagement(session ->
+                        session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 )
+
+                // Configuração de rotas públicas e protegidas
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/auth/**", "/api/status").permitAll()
-                        .requestMatchers("/v3/api-docs/**", "/swagger-ui.html", "/swagger-ui/**").permitAll()
+                        // Rotas públicas
+                        .requestMatchers(
+                                "/auth/**",
+                                "/swagger-ui/**",
+                                "/v3/api-docs/**",
+                                "/api/predict"
+                        ).permitAll()
+
+                        // Qualquer outra rota exige JWT
                         .anyRequest().authenticated()
                 )
+
+                // Filtro JWT antes do filtro padrão de login
                 .addFilterBefore(
-                        jwtFilter,
+                        securityFilter,
                         UsernamePasswordAuthenticationFilter.class
                 )
+
                 .build();
     }
 
-    @Bean
-    public BCryptPasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
-
+    /**
+     * AuthenticationManager necessário para login manual
+     */
     @Bean
     public AuthenticationManager authenticationManager(
             AuthenticationConfiguration configuration
     ) throws Exception {
         return configuration.getAuthenticationManager();
+    }
+
+    /**
+     * Encoder de senha usado no cadastro e login
+     */
+    @Bean
+    public BCryptPasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
     }
 }

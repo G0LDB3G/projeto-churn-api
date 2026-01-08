@@ -1,6 +1,5 @@
 package com.hackathon.churninsight.api.controller;
 
-
 import com.hackathon.churninsight.api.domain.cliente.Cliente;
 import com.hackathon.churninsight.api.domain.cliente.dto.ClienteRequestDTO;
 import com.hackathon.churninsight.api.domain.cliente.dto.ClienteResponseDTO;
@@ -12,6 +11,10 @@ import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 
+/**
+ * Controller responsável apenas pelo cadastro de clientes.
+ * NÃO executa predição.
+ */
 @RestController
 @RequestMapping("/clientes")
 @SecurityRequirement(name = "bearer-key")
@@ -23,9 +26,13 @@ public class ClienteController {
         this.service = service;
     }
 
+    /**
+     * Cadastra um cliente no banco de dados.
+     */
     @PostMapping
-    public ResponseEntity<ClienteResponseDTO> cadastrar(@RequestBody @Valid ClienteRequestDTO dto) {
-
+    public ResponseEntity<ClienteResponseDTO> cadastrar(
+            @RequestBody @Valid ClienteRequestDTO dto
+    ) {
         Cliente cliente = service.cadastrar(dto);
 
         return ResponseEntity
