@@ -5,7 +5,7 @@ A **ChurnInsight API** é uma solução robusta desenvolvida em **Spring Boot** 
 ## ✨ Funcionalidades
 
 * **Autenticação JWT:** Sistema de login seguro com geração e validação de tokens Bearer.
-* **Predição de Churn:** Integração via `RestTemplate` com modelo de Data Science para análise em tempo real.
+* **Predição de Churn:** Integração via `RestTemplate` spring, com modelo de Data Science para análise em tempo real.
 * **Gestão de Clientes:** Cadastro e histórico de consultas com persistência no PostgreSQL.
 * **Dashboard de Estatísticas:** Métricas de volume de consultas e taxa de churn acumulada.
 * **Histórico de Consultas:** Endpoint paginado para auditoria de predições anteriores.
