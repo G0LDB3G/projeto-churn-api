@@ -6,24 +6,17 @@ import lombok.*;
 
 import java.math.BigDecimal;
 
-@Entity
-@Table(
-        name = "clientes",
-        uniqueConstraints = @UniqueConstraint(columnNames = "customer_id")
-)
 @Getter
-@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(of = "id")
-public class Cliente {
 
+@Entity(name = "Cliente")
+@Table(name = "clientes")
+public class Cliente {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @Column(name = "customer_id", nullable = false)
-    private String customerID;
 
     private String gender;
     private Integer seniorCitizen;
@@ -50,7 +43,6 @@ public class Cliente {
     private BigDecimal totalCharges;
 
     public Cliente(ClienteRequestDTO clienteDTO) {
-        this.customerID = clienteDTO.customerID();
         this.gender = clienteDTO.gender();
         this.seniorCitizen = clienteDTO.seniorCitizen();
         this.partner = clienteDTO.partner();
@@ -72,4 +64,3 @@ public class Cliente {
         this.totalCharges = clienteDTO.totalCharges();
     }
 }
-

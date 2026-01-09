@@ -1,5 +1,4 @@
-package com.hackathon.churninsight.api.infra.config;
-
+package com.hackathon.churninsight.api.infra.configdoc;
 
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
@@ -11,7 +10,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-public class OpenApiConfig {
+public class OpenApiConfigurations {
     @Bean
     public OpenAPI cunstomOpenAPI() {
         return new OpenAPI()

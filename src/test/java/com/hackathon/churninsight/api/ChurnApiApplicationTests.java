@@ -1,4 +1,4 @@
-package com.churninsight.api;
+package com.hackathon.churninsight.api;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

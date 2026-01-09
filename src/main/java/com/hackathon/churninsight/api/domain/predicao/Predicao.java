@@ -1,32 +1,50 @@
 package com.hackathon.churninsight.api.domain.predicao;
 
-import com.hackathon.churninsight.api.domain.cliente.dto.PredicaoResponseDTO;
+import com.hackathon.churninsight.api.domain.cliente.Cliente;
+import com.hackathon.churninsight.api.domain.predicao.dto.PredicaoResponseDTO;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import lombok.Setter;
+import lombok.NoArgsConstructor;
+
+import java.time.LocalDateTime;
 
 @Getter
-@Setter
-@Entity
-public class Predicao {
+@NoArgsConstructor
+@AllArgsConstructor
+@EqualsAndHashCode(of = "id")
 
+@Entity(name = "Predicao")
+@Table(name = "predicoes")
+public class Predicao {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String previsao;
-    private double probabilidade;
+    private Double probabilidade;
 
-    // Construtor padrão (JPA)
-    protected Predicao() {
-    }
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "cliente_id")
+    Cliente cliente;
 
-    // Construtor de conveniência
-    public Predicao(PredicaoResponseDTO resultado) {
-        this.previsao = resultado.getPrevisao();
-        this.probabilidade = resultado.getProbabilidade();
+    @Column(name = "data_predicao")
+    private LocalDateTime data;
+
+    public Predicao(PredicaoResponseDTO resultado, Cliente cliente) {
+        this.previsao = resultado.previsao();
+        this.probabilidade = resultado.probabilidade();
+        this.cliente = cliente;
+
+        this.data = LocalDateTime.now();
     }
 }

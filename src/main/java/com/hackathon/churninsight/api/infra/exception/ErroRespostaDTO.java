@@ -2,6 +2,7 @@ package com.hackathon.churninsight.api.infra.exception;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
+
 import java.time.LocalDateTime;
 import java.util.List;
 
