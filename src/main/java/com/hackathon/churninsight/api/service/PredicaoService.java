@@ -53,14 +53,14 @@ public class PredicaoService {
                 modeloPythonClient.prever(features);
 
         // 3. Salva a previsão no banco
-        Predicao predicao = new Predicao(resultado);
-        predicaoRepository.save(predicao);
+//        Predicao predicao = new Predicao(resultado);
+//        predicaoRepository.save(predicao);
 
         // 4. Salva o cliente apenas se não existir
-        if (!clienteRepository.existsByCustomerID(clienteDTO.customerID())) {
-            Cliente cliente = new Cliente(clienteDTO);
-            clienteRepository.save(cliente);
-        }
+//        if (!clienteRepository.existsByCustomerID(clienteDTO.customerID())) {
+//            Cliente cliente = new Cliente(clienteDTO);
+//            clienteRepository.save(cliente);
+//        }
 
         return resultado;
     }

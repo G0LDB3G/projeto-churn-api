@@ -28,11 +28,11 @@ public class ClienteService {
     public Cliente cadastrar(ClienteRequestDTO dto) {
 
         // Verifica se já existe cliente com esse customerId
-        if (repository.existsByCustomerID(dto.customerID())) {
-            throw new ErroValidacaoException(
-                    "Cliente já cadastrado com esse customerID"
-            );
-        }
+//        if (repository.existsByCustomerID(dto.customerID())) {
+//            throw new ErroValidacaoException(
+//                    "Cliente já cadastrado com esse customerID"
+//            );
+//        }
 
         // Converte o DTO em entidade
         Cliente cliente = new Cliente(dto);

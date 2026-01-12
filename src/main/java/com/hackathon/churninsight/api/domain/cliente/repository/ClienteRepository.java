@@ -21,5 +21,5 @@ public interface ClienteRepository extends JpaRepository<Cliente, Long> {
      * Verifica se já existe cliente com o customerId informado.
      * Usado para impedir cadastros duplicados.
      */
-    boolean existsByCustomerID(String customerID);
+//    boolean existsByCustomerID(String customerID);
 }

@@ -3,31 +3,24 @@ package com.hackathon.churninsight.api.controller;
 import com.hackathon.churninsight.api.domain.cliente.dto.StatsResponseDTO;
 import com.hackathon.churninsight.api.service.StatsService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-/**
- * Controller responsável por estatísticas do sistema.
- * Muito importante para apresentação do MVP.
- */
 @RestController
-@RequestMapping("/stats")
+@RequestMapping("/api/stats")
 @SecurityRequirement(name = "bearer-key")
 public class StatsController {
 
-    private final StatsService statsService;
+    private final StatsService service;
 
-    public StatsController(StatsService statsService) {
-        this.statsService = statsService;
+    public StatsController(StatsService service) {
+        this.service = service;
     }
 
-    /**
-     * Retorna estatísticas básicas do sistema:
-     * - total de previsões
-     * - taxa de churn
-     */
     @GetMapping
-    public StatsResponseDTO obterEstatisticas() {
-        return statsService.obterStats();
+    public ResponseEntity<StatsResponseDTO> obterEstatisticas() {
+        return ResponseEntity.ok(service.obterEstatisticasGerais());
     }
 }
-

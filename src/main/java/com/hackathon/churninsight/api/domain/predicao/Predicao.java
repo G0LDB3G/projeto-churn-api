@@ -1,5 +1,6 @@
 package com.hackathon.churninsight.api.domain.predicao;
 
+import com.hackathon.churninsight.api.domain.cliente.Cliente;
 import com.hackathon.churninsight.api.domain.predicao.dto.PredicaoResponseDTO;
 import jakarta.persistence.*;
 import lombok.*;
@@ -38,12 +39,22 @@ public class Predicao {
      */
     private LocalDateTime dataPredicao;
 
+    @ManyToOne @JoinColumn (name= "cliente_id")
+    private Cliente cliente;
+
     /**
      * Construtor usado pelo serviço de predição
      */
     public Predicao(PredicaoResponseDTO dto) {
         this.previsao = dto.previsao();
         this.probabilidade = dto.probabilidade();
+        this.dataPredicao = LocalDateTime.now();
+    }
+
+    public Predicao(PredicaoResponseDTO resultado, Cliente cliente) {
+        this.previsao = resultado.previsao();
+        this.probabilidade = resultado.probabilidade();
+        this.cliente = cliente;
         this.dataPredicao = LocalDateTime.now();
     }
 }

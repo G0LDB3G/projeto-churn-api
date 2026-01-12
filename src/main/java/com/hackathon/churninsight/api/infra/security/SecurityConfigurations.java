@@ -11,56 +11,63 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 /**
- * Configuração central de segurança da aplicação.
- * Usa autenticação JWT (stateless).
+ * Classe responsável pela configuração de segurança da aplicação.
+ *
+ * Define:
+ * - Endpoints públicos
+ * - Endpoints protegidos
+ * - Política de sessão (stateless)
+ * - Filtro JWT
+ * - Tratamento de erros 401 e 403
  */
 @Configuration
 public class SecurityConfigurations {
 
     private final SecurityFilter securityFilter;
+//    private final JwtAuthenticationEntryPoint authenticationEntryPoint;
+//    private final JwtAccessDeniedHandler accessDeniedHandler;
+    private final CustomAuthenticationEntryPoint entryPoint;
 
-    public SecurityConfigurations(SecurityFilter securityFilter) {
+    public SecurityConfigurations(
+            SecurityFilter securityFilter,
+//            JwtAuthenticationEntryPoint authenticationEntryPoint,
+//            JwtAccessDeniedHandler accessDeniedHandler,
+            CustomAuthenticationEntryPoint entryPoint
+    ) {
         this.securityFilter = securityFilter;
+//        this.authenticationEntryPoint = authenticationEntryPoint;
+//        this.accessDeniedHandler = accessDeniedHandler;
+        this.entryPoint = entryPoint;
     }
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-
         return http
-                // Desativa CSRF pois usamos JWT (API REST)
                 .csrf(csrf -> csrf.disable())
-
-                // API stateless → não usa sessão
                 .sessionManagement(session ->
                         session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 )
-
-                // Configuração de rotas públicas e protegidas
                 .authorizeHttpRequests(auth -> auth
-                        // Rotas públicas
                         .requestMatchers(
                                 "/auth/**",
                                 "/swagger-ui/**",
-                                "/v3/api-docs/**",
-                                "/api/predict"
+                                "/v3/api-docs/**"
                         ).permitAll()
-
-                        // Qualquer outra rota exige JWT
                         .anyRequest().authenticated()
                 )
+//                .exceptionHandling(ex -> ex
+////                        .authenticationEntryPoint(authenticationEntryPoint)
+////                        .accessDeniedHandler(accessDeniedHandler)
+//                )
 
-                // Filtro JWT antes do filtro padrão de login
+                .exceptionHandling(ex -> ex.authenticationEntryPoint(entryPoint))
                 .addFilterBefore(
                         securityFilter,
                         UsernamePasswordAuthenticationFilter.class
                 )
-
                 .build();
     }
 
-    /**
-     * AuthenticationManager necessário para login manual
-     */
     @Bean
     public AuthenticationManager authenticationManager(
             AuthenticationConfiguration configuration
@@ -69,10 +76,11 @@ public class SecurityConfigurations {
     }
 
     /**
-     * Encoder de senha usado no cadastro e login
+     * Bean responsável por criptografar e validar senhas.
      */
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 }
+

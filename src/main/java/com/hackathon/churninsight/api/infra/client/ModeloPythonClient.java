@@ -3,6 +3,7 @@ package com.hackathon.churninsight.api.infra.client;
 import com.hackathon.churninsight.api.domain.predicao.dto.PredicaoResponseDTO;
 import org.springframework.http.*;
 import org.springframework.stereotype.Component;
+import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.Map;
@@ -52,16 +53,34 @@ public class ModeloPythonClient {
         HttpEntity<Map<String, Object>> request =
                 new HttpEntity<>(dadosConvertidos, headers);
 
-        // Chamada POST para a API Python
-        ResponseEntity<PredicaoResponseDTO> response =
-                restTemplate.exchange(
-                        URL_MODELO,
-                        HttpMethod.POST,
-                        request,
-                        PredicaoResponseDTO.class
-                );
 
-        // Retorna o corpo da resposta (previsão)
-        return response.getBody();
+        // Chamada POST para a API Python
+//        ResponseEntity<PredicaoResponseDTO> response =
+//                restTemplate.exchange(
+//                        URL_MODELO,
+//                        HttpMethod.POST,
+//                        request,
+//                        PredicaoResponseDTO.class
+//                );
+//
+//        // Retorna o corpo da resposta (previsão)
+//        return response.getBody();
+
+        try {
+            ResponseEntity<PredicaoResponseDTO> response =
+                    restTemplate.exchange(
+                            URL_MODELO,
+                            HttpMethod.POST,
+                            request,
+                            PredicaoResponseDTO.class
+                    );
+            return response.getBody();
+
+        } catch (
+                RestClientException ex) {
+            throw new RestClientException("Erro ao se conectar ao modelo DS.");
+        }
+
     }
+
 }

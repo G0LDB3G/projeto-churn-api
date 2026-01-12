@@ -16,8 +16,8 @@ import java.math.BigDecimal;
  */
 @Entity
 @Table(
-        name = "clientes",
-        uniqueConstraints = @UniqueConstraint(columnNames = "customer_id")
+        name = "clientes" //,
+//        uniqueConstraints = @UniqueConstraint(columnNames = "customer_id")
 )
 @Getter
 @Setter
