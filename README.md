@@ -1,173 +1,208 @@
-Setor empresarial
+# ChurnInsight API 🚀
+
+A **ChurnInsight API** é uma solução robusta desenvolvida em **Spring Boot** para prever a rotatividade de clientes (Churn). Ela atua como uma ponte inteligente entre os dados brutos da empresa e um modelo de Dados externo, oferecendo autenticação segura, persistência em banco de dados e monitoramento de estatísticas.
+
+## ✨ Funcionalidades
+
+* **Autenticação JWT:** Sistema de login seguro com geração e validação de tokens Bearer.
+* **Predição de Churn:** Integração via `RestTemplate` spring, com modelo de Data Science para análise em tempo real.
+* **Gestão de Clientes:** Cadastro e histórico de consultas com persistência no PostgreSQL.
+* **Histórico de Consultas:** Endpoint paginado para auditoria de predições anteriores.
+* **Tratamento de Erros:** Respostas padronizadas para exceções de validações, segurança de controle de usuários e regras de negócios.
+
+## 🛠️ Tecnologias Utilizadas
+
+* **Java 17** & **Spring Boot 3.5.8**
+* **Spring Security** & **Auth0 JWT** (Segurança)
+* **Spring Data JPA** & **PostgreSQL** (Persistência)
+* **Lombok** (Produtividade na redução de códigos)
+* **SpringDoc OpenAPI (Swagger)** (Documentação da API)
+
+---
+
+## 📁 Estrutura do Projeto
+
+O projeto segue uma estrutura organizada por domínios e camadas de infraestrutura:
+
+```text
+churninsight
+├── src/main/java/com.hackathon.churninsight.api
+│   ├── controller      # PredictController, StatsController, AutenticacaoController
+│   ├── domain          # Entidades, DTOs e Repositories
+│   │   ├── cliente     # Cliente, ClienteRequestDTO, Validacoes
+│   │   ├── predicao    # Predicao, ResultadoPredicaoDTO, ListagemPredicaoDTO
+│   │   └── usuario     # Usuario, DadosAutenticacaoDTO
+│   ├── service         # Regras de negócio (PredicaoService, StatsService, Conversao)
+│   └── infra           # Segurança, Exception Handler, Client HTTP (ModeloPythonClient)
+└── src/main/resources
+    ├── application.properties
+    └── db.migration    # Scripts SQL (V1_create_table_clientes.sql)
+```
+
+### Fluxo de Dados e Transformação (Data Mapping)
+A API realiza a ponte entre o formato de negócio (String/Categorias) e o formato técnico exigido pelo modelo de Data Science (Numérico/Binário).
+
+1. Entrada Back-End (ClienteRequestDTO)  
+    O JSON enviado pelo usuário contém informações legíveis
+
+JSON
+
+    {  
+    "customerID": "7590-VHVEG",
+    "gender": "Female",
+    "SeniorCitizen": 0,
+    "Partner": "Yes",
+    "Dependents": "No",
+    "tenure": 1,
+    "PhoneService": "No",
+    "MultipleLines": "No phone service",
+    "InternetService": "DSL",
+    "OnlineSecurity": "No",
+    "OnlineBackup": "Yes",
+    "DeviceProtection": "No",
+    "TechSupport": "No",
+    "StreamingTV": "No",
+    "StreamingMovies": "No",
+    "Contract": "Month-to-month",
+    "PaperlessBilling": "Yes",
+    "PaymentMethod": "Electronic check",
+    "MonthlyCharges": 29.85,
+    "TotalCharges": 29.85
+    }
 
-Serviços e Assinaturas (Telecomunicações, Fintech, Streaming, Comércio Eletrônico)
+2. Transformação (ConversaoDadosService)  
+    A aplicação converte categorias em variáveis dummy (binárias) para processamento da IA
 
-Empresas que dependem de clientes recorrentes e desejam reduzir cancelamentos ou desistências.
+3. Requisição para API de Data Science (ModeloPythonClient)  
+    O formato final enviado ao modelo de Machine Learning (ML)
 
-Descrição do projeto
+JSON
 
-O desafio da ChurnInsight é criar uma solução que impeça um cliente de cancelar um serviço (churn).
+    {
+    "tenure": 60,
+    "MonthlyCharges": 25.00,
+    "TotalCharges": 108.80,
+    "gender_Male": 1,
+    "Partner_Yes": 0,
+    "Dependents_Yes": 0,
+    "PhoneService_Yes": 1,
+    "MultipleLines_Yes": 0,
+    "InternetService_Fiber_optic": 0,
+    "InternetService_No": 0,
+    "OnlineSecurity_Yes": 1,
+    "OnlineBackup_Yes": 0,
+    "DeviceProtection_Yes": 0,
+    "TechSupport_Yes": 0,
+    "StreamingTV_Yes": 0,
+    "StreamingMovies_Yes": 0,
+    "Contract_One_year": 0,
+    "Contract_Two_year": 1,
+    "PaperlessBilling_Yes": 1,
+    "PaymentMethod_Credit_card_automatic": 0,
+    "PaymentMethod_Electronic_check": 1,
+    "PaymentMethod_Mailed_check": 0
+    }
 
-O objetivo é que a equipe de Ciência de Dados desenvolva um modelo preditivo e que a equipe de Back-end construa uma API para disponibilizar essa previsão a outros sistemas, permitindo que a empresa tome uma decisão antes que o cliente decida cancelar o serviço.
 
-Exemplo: uma fintech quer saber, com base nos hábitos de uso e histórico de pagamentos, quais clientes têm alta probabilidade de inadimplência. Com essas informações, a equipe de marketing pode oferecer serviços personalizados e a equipe de suporte pode ser acionada preventivamente.
+## 🚀 Como Executar
 
-Necessidades do cliente (explicação não técnica)
+Banco de Dados: Certifique-se de que o PostgreSQL está rodando e o banco churninsight_db foi criado.
 
-Qualquer empresa que venda por contrato ou contrato recorrente está sujeita a cancelamentos. Manter clientes fiéis é mais barato do que conquistar novos.
+### VARIAVEIS DE AMBIENTE 
+#### BACK-END
 
-O cliente (empresa) quer prever com antecedência a possibilidade de cancelamento, para poder realocar e dispensar essas pessoas.
+* **HOST**: ENDEREÇO DO POSTGRES
+* **PORTA**: PORTA DO BANCO POSTGRES
+* **DB_NAME**: NOME DO BANCO DE DADOS
+* **DB_USER**: USUARIO DO BANCO DE DADOS
+* **DB_PASSWORD**: SENHA DO USUARIO
+* **JWT_SECRET**: SENHA PARA A GERAÇÃO DE TOKEN JWT
 
-A solução esperada deve ajudar:
+#### DATA SCIENCE:
 
-Identificar clientes com risco de cancelamento (churn);
+* **URL_API_DS**: URL MODELO PHYTHON
+* **USER_TOKEN**: TOKEN DE AUTORIZAÇÃO DO MODELO
 
-Priorizar ações de retenção (ofertas, contatos, bônus);
+## Faça um Fork do Projeto
+Antes de começar, clique no botão Fork (no canto superior direito desta página) para criar uma cópia deste repositório na sua conta do GitHub. Isso permite que você salve suas alterações e modelos.
 
-Medir o impacto dessas ações ao longo do tempo.
+## Faça o clone do projeto
 
-Validação de mercado
+   git clone `Seu repositorio`  
 
-Antecipar a rotatividade de clientes é uma das aplicações mais comuns e valiosas da análise de dados nos negócios modernos.
+## Build
+    cd projeto-churn-api
+    mvn clean install
 
-Empresas de telecomunicações, bancos digitais, instituições de ensino, plataformas de streaming e fornecedores de software utilizam modelos de churn para:
+## Executar
 
-reduzir perdas financeiras;
+    mvn spring-boot:run
 
-Compreender os padrões de comportamento do cliente;
+## 📖 Endpoints
 
-Aumentar o ritmo médio do relacionamento (valor vitalício).
+* **POST** /auth/register: criação de usuário
 
-Mesmo modelos simples podem ser valiosos, ajudando as empresas a direcionar seus esforços para os locais com maior risco de perda.
+* **POST** /auth/login: Obter token de acesso.
 
-Expectativas para este hackathon
+* **POST** /api/predict: Realizar nova predição.
 
-Público-alvo: estudantes iniciantes em tecnologia, sem experiência profissional na área, mas que não estudaram Back-end com Java (APIs REST, persistência, testes) e Ciência de Dados (Python, Pandas, scikit-learn, aprendizado de máquina supervisionado).
+* **GET** /api/consultas: Ver histórico paginado.
 
-Objetivo: construir, em grupo, um MVP (produto mínimo viável) capaz de prever se um cliente cancelará o serviço e disponibilizar essa previsão por meio de uma API funcional .
+* **GET** /api/stats: Ver métricas do dashboard.
 
-Âmbito ideal: Classificação binária (“Vou cancelar” / “Vou continuar”) com base em um conjunto de dados pequeno e limpo.
+* **GET** /swagger-ui/index.html: Documentação completa, abrir no navegador.
 
-Entregas desejadas
+## Como usar a API
 
-Notebook (Jupyter/Colab) para tempo de Ciência de Dados, conteúdo:
+1. Registrar um usuário `/auth/register`
 
-Exploração e limpeza de dados (EDA);
+   Body
+   
+       {
+       "login": "usuario",
+       "senha": "senha"
+       }
 
-Engenharia de funcionalidades (ex.: tempo de utilização, frequência de login, histórico de pagamentos);
+2. Obter token de acesso `/auth/login`
 
-Treinamento supervisionado de modelos (ex.: Regressão Logística, Floresta Aleatória);
+   Body
 
-Métricas de desempenho (Precisão, Exatidão, Recall, Pontuação F1);
+       {
+         "login": "usuario",
+           "senha": "senha"
+       }
 
-Serialização do modelo (joblib/pickle).
+3. Realizar nova predição `/api/predict`
 
-Aplicação Back-End em Java (API REST)
+   fazer a autorização berer token
 
-Ponto de extremidade que recebe informações de um cliente e retorna ao modelo anterior (Ex.: “Vai cancelar” / “Vai continuar”);
+   Body
 
-Integração com o modelo DS (diretamente ou via microsserviço Python);
+       {  
+        "customerID": "7590-VHVEG",
+        "gender": "Female",
+        "SeniorCitizen": 0,
+        "Partner": "Yes",
+        "Dependents": "No",
+        "tenure": 1,
+        "PhoneService": "No",
+        "MultipleLines": "No phone service",
+        "InternetService": "DSL",
+        "OnlineSecurity": "No",
+        "OnlineBackup": "Yes",
+        "DeviceProtection": "No",
+        "TechSupport": "No",
+        "StreamingTV": "No",
+        "StreamingMovies": "No",
+        "Contract": "Month-to-month",
+        "PaperlessBilling": "Yes",
+        "PaymentMethod": "Electronic check",
+        "MonthlyCharges": 29.85,
+        "TotalCharges": 29.85
+        }
 
-Registros e tratamento de erros.
+## Método de utilização
 
-Documentação mínima (README):
+* **Consulte a documentação**
 
-Como executar o modelo de API EA;
-
-Exemplos de requisição e resposta (JSON);
-
-Dependências e variantes das ferramentas.
-
-Demonstração funcional (Apresentação curta):
-
-Demonstrar a API em ação (via Postman, cURL ou interface simples);
-
-Explique como o modelo realiza verificações prévias.
-
-Funcionalidades necessárias (MVP)
-
-O serviço deve ser exportado por um endpoint que retorne uma previsão para o cliente com uma probabilidade associada a essa previsão. Exemplo: POST /predict: recebe JSON com dados do cliente e retorna: { "previsao": "Vai cancel", "probabilite": 0.76 }
-
-Carregamento do modelo preditivo: o back-end deve ser capaz de acessar o modelo de churn (localmente ou via serviço DS).
-
-Validação de entrada: verifique se todos os campos obrigatórios estão preenchidos previamente.
-
-Resposta estruturada: inclui previsão e probabilidade numérica.
-
-Exemplos de uso: 3 requisitos de teste (clientes sem cancelamento).
-
-Documentação simples: um arquivo README explicando como executar o projeto e reproduzir os testes.
-
-Recursos opcionais
-
-Endpoint GET /stats: retorna estatísticas básicas, como: { "total_validated": 500, "taxa_churn": 0.23 }
-
-Persistência de previsão: armazenar clientes e resultados no banco de dados (H2 ou PostgreSQL).
-
-Painel de controle simples (Streamlit ou HTML): visualize os clientes com maior visibilidade.
-
-Explicabilidade básica: incluir a não resposta das 3 variáveis ​​mais relevantes para o resultado (ex.: “período contratual”, “atrasos nos pagamentos”, “uso do aplicativo”).
-
-Previsão em lote: endpoint que compila a lista de clientes (arquivo CSV).
-
-Containerização: construa o sistema completo com Docker/Docker Compose.
-
-Testes automatizados: testes unitários e de integração simples (JUnit, pytest).
-
-Orientações técnicas para estudantes
-
-Controle o volume de dados ao usar a OCI, levando em consideração a quantidade de memória que a OCI suporta, e cuidando dos dados utilizados para não ultrapassar o limite da camada gratuita da OCI.
-
-Hora da Ciência de Dados:
-
-Crie seu próprio conjunto de dados com informações do cliente (exemplo: período do contrato, atrasos nos pagamentos, utilização do serviço, tipo de plano, etc.).
-
-Utilize Python, Pandas e scikit-learn para analisar os modelos.
-
-Escolha modelos de classificação simples (Regressão Logística, Floresta Aleatória);
-
-Crie funcionalidades intuitivas (ex.: tempo de permanência do cliente, número de compras recentes, despesas médias);
-
-Salve o modelo e o pipeline (joblib.dump) e certifique-se de que ele possa ser carregado no notebook.
-
-Tempo de back-end:
-
-Criar uma API REST (Java + Spring Boot);
-
-Receber JSON com dados do cliente e retornar à pré-visualização;
-
-Conecte-se ao modelo DS:
-
-via microsserviço Python (FastAPI/Flask), ou
-
-Carregando o modelo exportado no formato ONNX (opção mais avançada);
-
-Valide as entradas e retorne erros claros quando faltarem informações.
-
-Contrato de integração (JSON)
-
-Recomendamos definir o logotipo do contrato de integração no início do hackathon. Veja um exemplo:
-
-Entrada:
-
-{
-
-"tempo_contrato_meses": 12,
-
-"atrasos_de_pagamento": 2,
-
-"uso mensal": 14,5,
-
-"plano": "Premium"
-
-}
-
-Saída:
-
-{
-
-"previsao": "Vai cancelar",
-
-"Probabilidade": 0,81
-
-}
+    https://churn-api.ddns.net/java/swagger-ui/index.html
