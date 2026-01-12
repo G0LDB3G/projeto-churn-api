@@ -123,9 +123,12 @@ Banco de Dados: Certifique-se de que o PostgreSQL está rodando e o banco churni
 * **URL_API_DS**: URL MODELO PHYTHON
 * **USER_TOKEN**: TOKEN DE AUTORIZAÇÃO DO MODELO
 
+## Faça um Fork do Projeto
+Antes de começar, clique no botão Fork (no canto superior direito desta página) para criar uma cópia deste repositório na sua conta do GitHub. Isso permite que você salve suas alterações e modelos.
+
 ## Faça o clone do projeto
 
-    https://github.com/G0LDB3G/projeto-churn-api.git
+   git clone `Seu repositorio`  
 
 ## Build
     cd projeto-churn-api
@@ -135,7 +138,9 @@ Banco de Dados: Certifique-se de que o PostgreSQL está rodando e o banco churni
 
     mvn spring-boot:run
 
-## 📖 Endpoints Principais
+## 📖 Endpoints
+
+* **POST** /auth/register: criação de usuário
 
 * **POST** /auth/login: Obter token de acesso.
 
@@ -145,7 +150,56 @@ Banco de Dados: Certifique-se de que o PostgreSQL está rodando e o banco churni
 
 * **GET** /api/stats: Ver métricas do dashboard.
 
-* **GET** /swagger-ui/index.html: Documentação completa.
+* **GET** /swagger-ui/index.html: Documentação completa, abrir no navegador.
+
+## Como usar a API
+
+1. Registrar um usuário `/auth/register`
+
+   Body
+   
+       {
+       "login": "usuario",
+       "senha": "senha"
+       }
+
+2. Obter token de acesso `/auth/login`
+
+   Body
+
+       {
+         "login": "usuario",
+           "senha": "senha"
+       }
+
+3. Realizar nova predição `/api/predict`
+
+   fazer a autorização berer token
+
+   Body
+
+       {  
+        "customerID": "7590-VHVEG",
+        "gender": "Female",
+        "SeniorCitizen": 0,
+        "Partner": "Yes",
+        "Dependents": "No",
+        "tenure": 1,
+        "PhoneService": "No",
+        "MultipleLines": "No phone service",
+        "InternetService": "DSL",
+        "OnlineSecurity": "No",
+        "OnlineBackup": "Yes",
+        "DeviceProtection": "No",
+        "TechSupport": "No",
+        "StreamingTV": "No",
+        "StreamingMovies": "No",
+        "Contract": "Month-to-month",
+        "PaperlessBilling": "Yes",
+        "PaymentMethod": "Electronic check",
+        "MonthlyCharges": 29.85,
+        "TotalCharges": 29.85
+        }
 
 ## Método de utilização
 
