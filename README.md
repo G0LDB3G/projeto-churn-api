@@ -148,7 +148,7 @@ Antes de começar, clique no botão Fork (no canto superior direito desta págin
 
 * **GET** /api/consultas: Ver histórico paginado.
 
-* **GET** /api/stats: Ver métricas do dashboard.
+* **GET** /api/stats: Ver métricas de consultas
 
 * **GET** /swagger-ui/index.html: Documentação completa, abrir no navegador.
 
