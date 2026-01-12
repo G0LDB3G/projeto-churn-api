@@ -43,7 +43,7 @@ churninsight
 A API realiza a ponte entre o formato de negócio (String/Categorias) e o formato técnico exigido pelo modelo de Data Science (Numérico/Binário).
 
 1. Entrada Back-End (ClienteRequestDTO)  
-   O JSON enviado pelo usuário contém informações legíveis
+    O JSON enviado pelo usuário contém informações legíveis
 
 JSON
 
@@ -71,10 +71,10 @@ JSON
     }
 
 2. Transformação (ConversaoDadosService)  
-   A aplicação converte categorias em variáveis dummy (binárias) para processamento da IA
+    A aplicação converte categorias em variáveis dummy (binárias) para processamento da IA
 
 3. Requisição para API de Data Science (ModeloPythonClient)  
-   O formato final enviado ao modelo de Machine Learning (ML)
+    O formato final enviado ao modelo de Machine Learning (ML)
 
 JSON
 
@@ -108,7 +108,7 @@ JSON
 
 Banco de Dados: Certifique-se de que o PostgreSQL está rodando e o banco churninsight_db foi criado.
 
-### VARIAVEIS DE AMBIENTE
+### VARIAVEIS DE AMBIENTE 
 #### BACK-END
 
 * **HOST**: ENDEREÇO DO POSTGRES
@@ -128,7 +128,7 @@ Antes de começar, clique no botão Fork (no canto superior direito desta págin
 
 ## Faça o clone do projeto
 
-git clone `Seu repositorio`
+   git clone `Seu repositorio`  
 
 ## Build
     cd projeto-churn-api
@@ -157,7 +157,7 @@ git clone `Seu repositorio`
 1. Registrar um usuário `/auth/register`
 
    Body
-
+   
        {
        "login": "usuario",
        "senha": "senha"
@@ -205,4 +205,4 @@ git clone `Seu repositorio`
 
 * **Consulte a documentação**
 
-  https://churn-api.ddns.net/java/swagger-ui/index.html
+    https://churn-api.ddns.net/java/swagger-ui/index.html
