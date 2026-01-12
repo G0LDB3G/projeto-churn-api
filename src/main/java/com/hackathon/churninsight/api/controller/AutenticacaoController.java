@@ -1,7 +1,9 @@
 package com.hackathon.churninsight.api.controller;
 
 import com.hackathon.churninsight.api.domain.usuario.Usuario;
-import com.hackathon.churninsight.api.domain.usuario.dto.*;
+import com.hackathon.churninsight.api.domain.usuario.dto.DadosAutenticacaoDTO;
+import com.hackathon.churninsight.api.domain.usuario.dto.DadosCadastroUsuarioDTO;
+import com.hackathon.churninsight.api.domain.usuario.dto.TokenJWTDTO;
 import com.hackathon.churninsight.api.domain.usuario.repository.UsuarioRepository;
 import com.hackathon.churninsight.api.infra.exception.ErroValidacaoException;
 import com.hackathon.churninsight.api.infra.security.TokenService;
@@ -10,6 +12,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+/**
+ * Controller responsável por autenticação e registro de usuários.
+ * Este controller NÃO exige autenticação JWT.
+ */
 @RestController
 @RequestMapping("/auth")
 public class AutenticacaoController {
@@ -28,11 +34,14 @@ public class AutenticacaoController {
         this.tokenService = tokenService;
     }
 
+    /**
+     * Endpoint para cadastro de novos usuários.
+     * @param dto dados de login e senha
+     */
     @PostMapping("/register")
     public ResponseEntity<String> cadastrar(
             @RequestBody @Valid DadosCadastroUsuarioDTO dto
     ) {
-
         if (usuarioRepository.existsByLogin(dto.login())) {
             throw new ErroValidacaoException("Este login já está cadastrado");
         }
@@ -42,13 +51,17 @@ public class AutenticacaoController {
         usuario.setSenha(encoder.encode(dto.senha()));
 
         usuarioRepository.save(usuario);
-        return ResponseEntity.ok("Registro efetuado com sucesso!");
+        return ResponseEntity.ok("Usuário cadastrado com sucesso!");
     }
 
-
+    /**
+     * Endpoint de login.
+     * Retorna um token JWT válido por tempo determinado.
+     */
     @PostMapping("/login")
-    public ResponseEntity<TokenJWTDTO> login(@RequestBody @Valid DadosAutenticacaoDTO dto) {
-
+    public ResponseEntity<TokenJWTDTO> login(
+            @RequestBody @Valid DadosAutenticacaoDTO dto
+    ) {
         Usuario usuario = usuarioRepository.findByLogin(dto.login())
                 .orElseThrow(() -> new SecurityException("Usuário ou senha inválidos"));
 
@@ -56,8 +69,8 @@ public class AutenticacaoController {
             throw new SecurityException("Usuário ou senha inválidos");
         }
 
-        String token = tokenService.gerarToken(usuario);
+        String token = tokenService.gerarToken(usuario.getLogin());
         return ResponseEntity.ok(new TokenJWTDTO(token));
     }
-}
 
+}

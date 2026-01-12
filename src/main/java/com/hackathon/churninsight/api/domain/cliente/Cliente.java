@@ -6,10 +6,18 @@ import lombok.*;
 
 import java.math.BigDecimal;
 
+/**
+ * Entidade Cliente
+ * Representa o cliente persistido no banco de dados.
+ *
+ * Essa entidade guarda os dados originais do cliente
+ * e pode ser reutilizada futuramente para análises,
+ * relatórios e histórico de previsões.
+ */
 @Entity
 @Table(
-        name = "clientes",
-        uniqueConstraints = @UniqueConstraint(columnNames = "customer_id")
+        name = "clientes" //,
+//        uniqueConstraints = @UniqueConstraint(columnNames = "customer_id")
 )
 @Getter
 @Setter
@@ -22,16 +30,31 @@ public class Cliente {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    /**
+     * ID original do cliente (ex: dataset da IBM)
+     * Deve ser único.
+     */
     @Column(name = "customer_id", nullable = false)
     private String customerID;
 
     private String gender;
+
+    /**
+     * Indica se o cliente é idoso (0 ou 1)
+     */
     private Integer seniorCitizen;
+
     private String partner;
     private String dependents;
+
+    /**
+     * Tempo de permanência do cliente (em meses)
+     */
     private Integer tenure;
+
     private String phoneService;
     private String multipleLines;
+
     private String internetService;
     private String onlineSecurity;
     private String onlineBackup;
@@ -39,37 +62,47 @@ public class Cliente {
     private String techSupport;
     private String streamingTV;
     private String streamingMovies;
+
+    /**
+     * Tipo de contrato (Month-to-month, One year, Two year)
+     */
     private String contract;
+
     private String paperlessBilling;
     private String paymentMethod;
 
-    @Column(precision = 10, scale = 2)
+    /**
+     * Valor cobrado mensalmente
+     */
     private BigDecimal monthlyCharges;
 
-    @Column(precision = 10, scale = 2)
+    /**
+     * Valor total gasto pelo cliente
+     */
     private BigDecimal totalCharges;
 
-    public Cliente(ClienteRequestDTO clienteDTO) {
-        this.customerID = clienteDTO.customerID();
-        this.gender = clienteDTO.gender();
-        this.seniorCitizen = clienteDTO.seniorCitizen();
-        this.partner = clienteDTO.partner();
-        this.dependents = clienteDTO.dependents();
-        this.tenure = clienteDTO.tenure();
-        this.phoneService = clienteDTO.phoneService();
-        this.multipleLines = clienteDTO.multipleLines();
-        this.internetService = clienteDTO.internetService();
-        this.onlineSecurity = clienteDTO.onlineSecurity();
-        this.onlineBackup = clienteDTO.onlineBackup();
-        this.deviceProtection = clienteDTO.deviceProtection();
-        this.techSupport = clienteDTO.techSupport();
-        this.streamingTV = clienteDTO.streamingTV();
-        this.streamingMovies = clienteDTO.streamingMovies();
-        this.contract = clienteDTO.contract();
-        this.paperlessBilling = clienteDTO.paperlessBilling();
-        this.paymentMethod = clienteDTO.paymentMethod();
-        this.monthlyCharges = clienteDTO.monthlyCharges();
-        this.totalCharges = clienteDTO.totalCharges();
-    }
-}
 
+    public Cliente(ClienteRequestDTO dto) {
+        this.customerID = dto.customerID();
+        this.gender = dto.gender();
+        this.seniorCitizen = dto.seniorCitizen();
+        this.partner = dto.partner();
+        this.dependents = dto.dependents();
+        this.tenure = dto.tenure();
+        this.phoneService = dto.phoneService();
+        this.multipleLines = dto.multipleLines();
+        this.internetService = dto.internetService();
+        this.onlineSecurity = dto.onlineSecurity();
+        this.onlineBackup = dto.onlineBackup();
+        this.deviceProtection = dto.deviceProtection();
+        this.techSupport = dto.techSupport();
+        this.streamingTV = dto.streamingTV();
+        this.streamingMovies = dto.streamingMovies();
+        this.contract = dto.contract();
+        this.paperlessBilling = dto.paperlessBilling();
+        this.paymentMethod = dto.paymentMethod();
+        this.monthlyCharges = dto.monthlyCharges();
+        this.totalCharges = dto.totalCharges();
+    }
+
+}

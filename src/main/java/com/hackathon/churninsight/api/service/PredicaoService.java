@@ -2,15 +2,19 @@ package com.hackathon.churninsight.api.service;
 
 import com.hackathon.churninsight.api.domain.cliente.Cliente;
 import com.hackathon.churninsight.api.domain.cliente.dto.ClienteRequestDTO;
-import com.hackathon.churninsight.api.domain.cliente.dto.PredicaoResponseDTO;
-import com.hackathon.churninsight.api.domain.cliente.repository.ClienteRepository;
 import com.hackathon.churninsight.api.domain.predicao.Predicao;
+import com.hackathon.churninsight.api.domain.predicao.dto.PredicaoResponseDTO;
+import com.hackathon.churninsight.api.domain.cliente.repository.ClienteRepository;
 import com.hackathon.churninsight.api.domain.predicao.repository.PredicaoRepository;
 import com.hackathon.churninsight.api.infra.client.ModeloPythonClient;
 import org.springframework.stereotype.Service;
 
 import java.util.Map;
 
+/**
+ * Serviço responsável por orquestrar
+ * o processo completo de previsão de churn.
+ */
 @Service
 public class PredicaoService {
 
@@ -31,25 +35,32 @@ public class PredicaoService {
         this.clienteRepository = clienteRepository;
     }
 
+    /**
+     * Executa a previsão de churn:
+     * 1. Converte os dados
+     * 2. Envia para o modelo Python
+     * 3. Salva a previsão
+     * 4. Salva o cliente (se não existir)
+     */
     public PredicaoResponseDTO preverChurn(ClienteRequestDTO clienteDTO) {
 
-        // Converte dados para features
+        // 1. Converte os dados para features
         Map<String, Object> features =
                 conversaoDadosService.processarCliente(clienteDTO);
 
-        // Chama o modelo Python
+        // 2. Chamada ao modelo de IA
         PredicaoResponseDTO resultado =
                 modeloPythonClient.prever(features);
 
-        // Salva previsão
-        Predicao predicao = new Predicao(resultado);
-        predicaoRepository.save(predicao);
+        // 3. Salva a previsão no banco
+//        Predicao predicao = new Predicao(resultado);
+//        predicaoRepository.save(predicao);
 
-        // Salva cliente apenas se não existir
-        if (!clienteRepository.existsByCustomerID(clienteDTO.customerID())) {
-            Cliente cliente = new Cliente(clienteDTO);
-            clienteRepository.save(cliente);
-        }
+        // 4. Salva o cliente apenas se não existir
+//        if (!clienteRepository.existsByCustomerID(clienteDTO.customerID())) {
+//            Cliente cliente = new Cliente(clienteDTO);
+//            clienteRepository.save(cliente);
+//        }
 
         return resultado;
     }
