@@ -11,22 +11,26 @@ public class StatsService {
 
     private final PredicaoRepository predicaoRepository;
 
-
     public StatsResponseDTO obterEstatisticasGerais() {
-        // Busca todas as predições realizadas
+
         var todasPredicoes = predicaoRepository.findAll();
 
         long totalConsultas = todasPredicoes.size();
 
-        // Conta quantas predições o modelo classificou como "Yes"
-        long totalRiscoChurn = todasPredicoes.stream()
-                .filter(p -> "Yes".equalsIgnoreCase(p.getPrevisao()))
+        long totalChurn = todasPredicoes.stream()
+                .filter(p -> "Vai cancelar".equalsIgnoreCase(p.getPrevisao()))
                 .count();
 
-        double taxaChurnPercentual = totalConsultas > 0
-                ? ((double) totalRiscoChurn / totalConsultas) * 100
+        double taxaPercentual = totalConsultas > 0
+                ? Math.round(((double) totalChurn / totalConsultas) * 100 * 100.0) / 100.0
                 : 0.0;
 
-        return new StatsResponseDTO(totalConsultas, totalRiscoChurn, taxaChurnPercentual);
+
+        return new StatsResponseDTO(
+                totalConsultas,
+                totalChurn,
+                taxaPercentual
+        );
     }
 }
+
