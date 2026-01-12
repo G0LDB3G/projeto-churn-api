@@ -123,8 +123,12 @@ Banco de Dados: Certifique-se de que o PostgreSQL está rodando e o banco churni
 * **URL_API_DS**: URL MODELO PHYTHON
 * **USER_TOKEN**: TOKEN DE AUTORIZAÇÃO DO MODELO
 
-## Build
+## Faça o clone do projeto
 
+    https://github.com/G0LDB3G/projeto-churn-api.git
+
+## Build
+    cd projeto-churn-api
     mvn clean install
 
 ## Executar
