@@ -18,10 +18,4 @@ public class JwtAuthenticationException extends AuthenticationException {
         super(msg, cause);
     }
 
-    /**
-     * Construtor simples apenas com mensagem.
-     */
-    public JwtAuthenticationException(String msg) {
-        super(msg);
-    }
 }
