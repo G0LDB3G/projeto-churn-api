@@ -3,7 +3,6 @@ package com.hackathon.churninsight.api.controller;
 import com.hackathon.churninsight.api.domain.cliente.Cliente;
 import com.hackathon.churninsight.api.domain.cliente.dto.ClienteRequestDTO;
 import com.hackathon.churninsight.api.domain.cliente.repository.ClienteRepository;
-import com.hackathon.churninsight.api.domain.predicao.dto.DadosPredicaoClienteDTO;
 import com.hackathon.churninsight.api.domain.predicao.Predicao;
 import com.hackathon.churninsight.api.domain.predicao.dto.PredicaoResponseDTO;
 import com.hackathon.churninsight.api.domain.predicao.dto.ListagemPredicaoDTO;

@@ -15,10 +15,7 @@ import java.math.BigDecimal;
  * relatórios e histórico de previsões.
  */
 @Entity
-@Table(
-        name = "clientes" //,
-//        uniqueConstraints = @UniqueConstraint(columnNames = "customer_id")
-)
+@Table(name = "clientes")
 @Getter
 @Setter
 @NoArgsConstructor

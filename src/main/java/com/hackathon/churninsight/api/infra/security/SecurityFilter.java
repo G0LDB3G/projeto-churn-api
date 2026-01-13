@@ -16,8 +16,9 @@ import java.io.IOException;
 
 /**
  * Filtro responsável por interceptar todas as requisições
- * e validar o token JWT.
+ * protegidas e validar o token JWT presente no header Authorization.
  */
+
 @Component
 public class SecurityFilter extends OncePerRequestFilter {
 

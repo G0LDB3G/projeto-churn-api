@@ -54,17 +54,7 @@ public class ModeloPythonClient {
                 new HttpEntity<>(dadosConvertidos, headers);
 
 
-        // Chamada POST para a API Python
-//        ResponseEntity<PredicaoResponseDTO> response =
-//                restTemplate.exchange(
-//                        URL_MODELO,
-//                        HttpMethod.POST,
-//                        request,
-//                        PredicaoResponseDTO.class
-//                );
-//
-//        // Retorna o corpo da resposta (previsão)
-//        return response.getBody();
+        // Erro de conexão com o modelo, timeout ou API DS indisponível
 
         try {
             ResponseEntity<PredicaoResponseDTO> response =

@@ -56,8 +56,10 @@ public class AutenticacaoController {
 
     /**
      * Endpoint de login.
-     * Retorna um token JWT válido por tempo determinado.
+     * Retorna um token JWT que será usado para autenticar
+     * as requisições protegidas da API.
      */
+
     @PostMapping("/login")
     public ResponseEntity<TokenJWTDTO> login(
             @RequestBody @Valid DadosAutenticacaoDTO dto

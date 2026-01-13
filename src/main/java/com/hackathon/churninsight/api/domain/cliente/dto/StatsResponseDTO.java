@@ -14,7 +14,19 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class StatsResponseDTO {
+    /**
+     * Total de previsões realizadas.
+     */
     private long totalConsultas;
+
+    /**
+     * Total de clientes previstos como churn.
+     */
     private long totalChurn;
+
+    /**
+     * Taxa percentual de churn.
+     */
     private double taxaPercentual;
+
 }

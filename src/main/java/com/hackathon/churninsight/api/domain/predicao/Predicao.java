@@ -39,6 +39,10 @@ public class Predicao {
      */
     private LocalDateTime dataPredicao;
 
+    /**
+     * Cliente associado a esta previsão.
+     */
+
     @ManyToOne @JoinColumn (name= "cliente_id")
     private Cliente cliente;
 
