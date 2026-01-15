@@ -31,7 +31,7 @@ public class Cliente {
      * ID original do cliente (ex: dataset da IBM)
      * Deve ser único.
      */
-    @Column(name = "customer_id", nullable = false)
+    @Column(name = "customer_id", nullable = false, unique = true)
     private String customerID;
 
     private String gender;

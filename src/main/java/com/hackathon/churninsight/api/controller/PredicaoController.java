@@ -54,8 +54,10 @@ public class PredicaoController {
     ) {
         PredicaoResponseDTO resultado = predicaoService.preverChurn(clienteDTO);
 
-        Cliente cliente = new Cliente(clienteDTO);
-        clienteRepository.save(cliente);
+        Cliente cliente = clienteRepository
+                .findByCustomerID(clienteDTO.customerID())
+                .orElseGet(() -> clienteRepository.save(new Cliente(clienteDTO)));
+
 
         Predicao predicao = new Predicao(resultado, cliente);
         predicaoRepository.save(predicao);
