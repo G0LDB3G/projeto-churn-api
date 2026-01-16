@@ -9,6 +9,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.client.RestClientException;
+import org.springframework.web.servlet.resource.NoResourceFoundException;
 
 import java.util.List;
 
@@ -45,11 +46,18 @@ public class TratadorDeErros {
                 .body(new ErroRespostaDTO(400, "Bad Request", "Corpo da requisição inválido ou ausente."));
     }
 
-    // 400 - Método não suportado
+    // 400 - Metodo não suportado
     @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
     public ResponseEntity<ErroRespostaDTO> tratarErroMetodoNaoSuportado(HttpRequestMethodNotSupportedException ex) {
         return ResponseEntity.badRequest()
                 .body(new ErroRespostaDTO(400, "Bad Request", "O método " + ex.getMethod() + " não é suportado nesse endpoint."));
+    }
+
+    // 400 - Erro de URL inválida
+    @ExceptionHandler(NoResourceFoundException.class)
+    public ResponseEntity<ErroRespostaDTO> tratarErroUrlInvalida(NoResourceFoundException ex) {
+        return ResponseEntity.badRequest()
+                .body(new ErroRespostaDTO(400, "Bad Request", "URL inválida: " + ex.getResourcePath()));
     }
 
     // 422 - Erros de Regra de Negócio (Ex: BusinessException)
@@ -77,7 +85,6 @@ public class TratadorDeErros {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                 .body(new ErroRespostaDTO(500, "Internal Server Error", ex.getMessage()));
     }
-
 
     // 500 - Erro genérico (Fallback)
     @ExceptionHandler(Exception.class)
