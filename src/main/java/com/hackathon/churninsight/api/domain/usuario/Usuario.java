@@ -10,12 +10,7 @@ import lombok.*;
  * das requisições protegidas.
  */
 @Entity
-@Table(
-        name = "usuarios",
-        uniqueConstraints = {
-                @UniqueConstraint(columnNames = "login")
-        }
-)
+@Table(name = "usuarios")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -34,7 +29,7 @@ public class Usuario {
      * Login do usuário.
      * Deve ser único.
      */
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String login;
 
     /**
@@ -43,4 +38,9 @@ public class Usuario {
      */
     @Column(nullable = false)
     private String senha;
+
+    public Usuario(String login, String senha) {
+        this.login = login;
+        this.senha = senha;
+    }
 }
