@@ -11,7 +11,7 @@ import java.util.Map;
  * para o formato esperado pelo modelo de Machine Learning.
  */
 @Service
-public class ConversaoDadosService {
+public class  ConversaoDadosService {
 
     /**
      * Converte o ClienteRequestDTO em um Map de features
